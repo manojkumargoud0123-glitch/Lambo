@@ -1,0 +1,399 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ─────────────────────────────────────────────────────────────
+   Design tokens
+   Typography follows tlgolfcarts.com: Georama at 150% width for
+   display / labels, Kanit Light for reading text.
+   Status hues validated for CVD separation (all pairs) per mode.
+   Any element can re-scope the palette with data-theme="dark|light".
+   ───────────────────────────────────────────────────────────── */
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #080807;
+  --bg-elev: #0c0c0b;
+  --surface: #111110;
+  --surface-2: #181816;
+  --surface-3: #22221f;
+  --line: rgba(255, 244, 228, 0.07);
+  --line-strong: rgba(255, 244, 228, 0.14);
+  --ink: #f4f1ea;
+  --ink-2: #c8c2b5;
+  --muted: #8d887c;
+  --faint: #5a564e;
+  --accent: #e1362b;
+  --accent-ink: #ff6a5e;
+  --gold: #d2b47a;
+  --gold-2: #efdcb0;
+  --gold-wash: rgba(210, 180, 122, 0.1);
+  --moving: #199e70;
+  --idle: #c98500;
+  --charging: #3987e5;
+  --parked: #b9b5aa;
+  --offline: #5d5b55;
+  --good: #2fbf71;
+  --bad: #ff6a5e;
+  --grid: #1f1f1d;
+  --axis: #34332f;
+  --glass: rgba(12, 12, 11, 0.76);
+  --card-bg: linear-gradient(180deg, #141412 0%, #0e0e0d 100%);
+  --metal: linear-gradient(180deg, #fbf8f1 0%, #ddd6c8 55%, #a29b8d 100%);
+  --shadow-lg: 0 40px 80px -40px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  --highlight: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f3f2ef;
+  --bg-elev: #f9f8f6;
+  --surface: #ffffff;
+  --surface-2: #f3f2ef;
+  --surface-3: #e9e7e2;
+  --line: rgba(29, 29, 27, 0.08);
+  --line-strong: rgba(29, 29, 27, 0.16);
+  --ink: #1d1d1b;
+  --ink-2: #4a4945;
+  --muted: #7c7970;
+  --faint: #b3b0a8;
+  --accent: #e1362b;
+  --accent-ink: #c42a20;
+  --gold: #9c7a3c;
+  --gold-2: #7a5d27;
+  --gold-wash: rgba(156, 122, 60, 0.1);
+  --moving: #14936a;
+  --idle: #c27c00;
+  --charging: #2a78d6;
+  --parked: #6f6c66;
+  --offline: #b8b5ad;
+  --good: #0f8a4a;
+  --bad: #c42a20;
+  --grid: #ebe9e4;
+  --axis: #d5d2cb;
+  --glass: rgba(255, 255, 255, 0.8);
+  --card-bg: #ffffff;
+  --metal: linear-gradient(180deg, #1d1d1b 0%, #43413c 100%);
+  --shadow-lg: 0 40px 80px -40px rgba(29, 29, 27, 0.28), 0 0 0 1px rgba(29, 29, 27, 0.04);
+  --highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+[data-theme] {
+  color: var(--ink);
+}
+
+@theme inline {
+  --font-sans: 'Kanit', ui-sans-serif, system-ui, 'Segoe UI', sans-serif;
+
+  --color-bg: var(--bg);
+  --color-elev: var(--bg-elev);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-gold: var(--gold);
+  --color-gold-2: var(--gold-2);
+  --color-gold-wash: var(--gold-wash);
+  --color-moving: var(--moving);
+  --color-idle: var(--idle);
+  --color-charging: var(--charging);
+  --color-parked: var(--parked);
+  --color-offline: var(--offline);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --color-glass: var(--glass);
+
+  --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-lux: var(--shadow-lg);
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--line);
+  }
+
+  html {
+    background: var(--bg);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.45;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Warm ambient light behind the content (static, so it costs nothing to scroll). */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1100px 560px at 82% -12%, var(--gold-wash), transparent 62%),
+      radial-gradient(900px 520px at -8% 108%, rgba(225, 54, 43, 0.05), transparent 60%);
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+  }
+
+  ::selection {
+    background: var(--gold);
+    color: #0b0b0a;
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  input,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+  }
+  [data-theme='light'] input[type='date']::-webkit-calendar-picker-indicator {
+    filter: none;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-3) transparent;
+  }
+
+  /* Theme toggle cross-fade (View Transitions API). */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.35s;
+  }
+}
+
+/* ── Utilities ────────────────────────────────────────────── */
+@utility font-wide {
+  font-family: 'Georama', 'Kanit', ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: 'wdth' 150;
+  font-stretch: 150%;
+}
+
+@utility eyebrow {
+  font-family: 'Georama', 'Kanit', ui-sans-serif, system-ui, sans-serif;
+  font-variation-settings: 'wdth' 150;
+  font-stretch: 150%;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Brushed-metal display type. */
+@utility metal-text {
+  background: var(--metal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glass {
+  background: var(--glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lg), var(--highlight);
+}
+
+@utility card {
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 1.75rem;
+  box-shadow: var(--highlight), 0 30px 60px -45px rgba(0, 0, 0, 0.7);
+}
+
+@utility num {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility hairline-gold {
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  height: 1px;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Animations (transform / opacity only — compositor friendly) ── */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: scale(1.07);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drift {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes fill-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes grow-up {
+  from {
+    transform: scale(1, 0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.2s var(--ease-lux) infinite;
+}
+.grow-up {
+  animation: grow-up 0.9s var(--ease-lux) both;
+}
+.drift {
+  animation: drift 9s ease-out both;
+}
+.fill-bar {
+  animation: fill-bar 6s linear both;
+}
+.rise {
+  animation: rise 0.55s var(--ease-lux) both;
+}
+.pop {
+  animation: pop 0.45s var(--ease-lux) both;
+}
+.settle {
+  animation: settle 1.8s var(--ease-lux) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse-ring,
+  .rise,
+  .pop,
+  .settle,
+  .grow-up,
+  .drift,
+  .fill-bar {
+    animation: none;
+  }
+}
+
+/* ── Leaflet (Google layers) ──────────────────────────────── */
+.tl-map {
+  isolation: isolate;
+}
+.tl-map .leaflet-container {
+  background: #0c0c0b;
+  font-family: var(--font-sans);
+  outline: none;
+}
+
+.tl-marker {
+  background: none !important;
+  border: none !important;
+}
+.tl-anchor-center,
+.tl-anchor-bottom {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+}
+.tl-anchor-center {
+  transform: translate(-50%, -50%);
+}
+.tl-anchor-bottom {
+  transform: translate(-50%, -100%);
+}
+
+
+.tl-map .leaflet-control-attribution {
+  background: var(--glass) !important;
+  color: var(--muted);
+  font-size: 10px;
+  padding: 2px 10px;
+  border-radius: 999px 0 0 0;
+}
+.tl-map .leaflet-control-attribution a {
+  color: var(--muted);
+}
