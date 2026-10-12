@@ -2,8 +2,6 @@ import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
 import { Wordmark } from '@/components/brand/Logo'
 import { stagger } from '@/components/ui/motion'
-import { NOW } from '@/data/fleet'
-import { dateTimeLabel } from '@/lib/format'
 
 /** Content page: cinematic hero on top, editorial sections below, quiet footer. */
 export function Page({ hero, children }: { hero: ReactNode; children: ReactNode }) {
@@ -15,7 +13,12 @@ export function Page({ hero, children }: { hero: ReactNode; children: ReactNode 
       </motion.div>
       <footer className="mx-auto mt-24 flex max-w-[1640px] flex-col items-center justify-between gap-4 border-t border-line px-4 pt-8 text-[12px] text-muted sm:flex-row sm:px-6 lg:px-12">
         <Wordmark className="h-4 w-auto text-ink-2" />
-        <p>Golf Cart · Fleet Intelligence · data as of {dateTimeLabel(NOW)}</p>
+        <p>
+          Designed &amp; Developed by{' '}
+          <a href="https://transglobalgeomatics.com/" target="_blank" rel="noopener noreferrer" className="text-ink-2 transition-colors hover:text-gold">
+            Trans Global Geomatics Pvt Ltd
+          </a>
+        </p>
       </footer>
     </div>
   )
