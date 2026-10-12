@@ -35,7 +35,7 @@ export function AppShell({ prefetch }: { prefetch: () => void }) {
   return (
     <>
       <Intro />
-      <Header onOpenPalette={() => setPalette(true)} />
+      <Header />
       <AnimatePresence mode="wait" initial={false}>
         <motion.main
           key={location.pathname}

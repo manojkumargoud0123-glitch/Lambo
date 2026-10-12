@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { BatteryLow, Bell, ChevronDown, LogOut, Menu, Moon, Search, ShieldAlert, Sun, X } from 'lucide-react'
+import { BatteryLow, Bell, ChevronDown, LogOut, Menu, Moon, ShieldAlert, Sun, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router'
 import { Shield, Wordmark } from '@/components/brand/Logo'
@@ -101,7 +101,7 @@ function AccountMenu() {
   )
 }
 
-export function Header({ onOpenPalette }: { onOpenPalette: () => void }) {
+export function Header() {
   const { pathname } = useLocation()
   const [menu, setMenu] = useState(false)
   const [hidden, setHidden] = useState(false)
@@ -165,18 +165,6 @@ export function Header({ onOpenPalette }: { onOpenPalette: () => void }) {
           </nav>
 
           <div className="ml-auto flex items-center gap-1 lg:ml-0">
-            <button
-              type="button"
-              onClick={onOpenPalette}
-              className="hidden h-10 items-center gap-2.5 rounded-full border border-line bg-surface-2/40 pl-3.5 pr-2 text-[12px] text-muted transition-colors hover:border-line-strong hover:text-ink-2 2xl:flex"
-            >
-              <Search className="size-4" />
-              Search fleet
-              <kbd className="rounded-full border border-line bg-surface-3 px-2 py-0.5 font-sans text-[10px] text-ink-2">Ctrl K</kbd>
-            </button>
-            <Button size="icon" variant="ghost" className="2xl:hidden" onClick={onOpenPalette} aria-label="Search">
-              <Search className="size-[18px]" />
-            </Button>
             <ThemeToggle />
             <Notifications />
             <AccountMenu />
